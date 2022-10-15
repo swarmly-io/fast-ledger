@@ -1,0 +1,4 @@
+pydantic==1.7.3
+pydantic_factories==1.10.0
+pytest==6.2.3
+devtools==2.4.3

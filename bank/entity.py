@@ -2,7 +2,7 @@ from datetime import datetime
 from decimal import Decimal
 from uuid import UUID, uuid4
 from pydantic import BaseModel, Field
-from typing import List
+from typing import List, Optional
 
 class Address(BaseModel):
     id: UUID = Field(default_factory=uuid4)
@@ -28,6 +28,13 @@ class BankDetails(BaseModel):
     bsb: str
     account_number: str     
 
+class ReverseApproval(BaseModel):
+    id: UUID = Field(default_factory=uuid4)
+    description: str
+    approved: bool
+    approvers: List[UUID]
+    reference_transaction: UUID
+
 class Transaction(BaseModel):
     id: UUID = Field(default_factory=uuid4)
     description: str
@@ -35,6 +42,7 @@ class Transaction(BaseModel):
     amount: Decimal
     # todo currency: str
     counter_party: UUID
+    reverse_approval: Optional[ReverseApproval]
 
 class Account(BaseModel):
     id: UUID = Field(default_factory=uuid4)
