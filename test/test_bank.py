@@ -5,8 +5,8 @@ from uuid import uuid4
 
 import pytest
 from bank.bank_worker import BankWorker
-from bank.entity import Account, Entity, ReverseApproval, Transaction
-from bank.query import BankQuery
+from bank.entity_models import Account, Entity, ReverseApproval, Transaction
+from bank.bank_query import BankQuery
 from bank.utils import first_or_none
 from pydantic_factories import ModelFactory
 from bank.bank import Authority, Bank, InternalEntity
@@ -58,6 +58,8 @@ class TestBank:
         bank = BankFactory.build(**bank_data)
         self.bank_worker = BankWorker(bank)
         self.bank_query = BankQuery(bank)
+        # try use the above instead
+        self.bank = bank
         
     def test_create_entity(self):
         entity = EntityFactory.build()
@@ -149,6 +151,49 @@ class TestBank:
         assert account_to is not None
         return account_from,account_to,accounts_from_balance,accounts_to_balance
         
-    
+    def test_deposit_positive_amount_works(self):
+        account = self.bank.entities[0].accounts[0]
+        balance = account.balance
+        self.bank_worker.deposit(account, 1)
+        assert account.balance == balance + 1 
+        
+    def test_deposit_negative_amount_fails(self):
+        account = self.bank.entities[0].accounts[0]
+        balance = account.balance
+        with pytest.raises(Exception):
+            self.bank_worker.deposit(account, 1)
+            assert account.balance == balance
+            
+    def test_withdraw_positive_amount_works(self):
+        account = self.bank.entities[0].accounts[0]
+        balance = account.balance
+        self.bank_worker.withdraw(account, 1)
+        assert account.balance == balance - 1
+        
+    def test_withdraw_to_much_false(self):
+        account = self.bank.entities[0].accounts[0]
+        account.balance = 1
+        with pytest.raises(Exception): 
+            self.bank_worker.withdraw(account, 2)
+            assert account.balance == 1
+            
+    def test_query_entity_balance_returns_correct_balance(self):
+        account1 = AccountFactory.build(**{"balance": 10})
+        account2 = AccountFactory.build(**{"balance": 20})
+        entity = EntityFactory.build(**{"accounts":[account1, account2]})
+        result = self.bank_query.return_total_balance(entity)
+        assert result == 30
+        
+    def test_query_entity_balance_returns_correct_balance(self):
+        account1 = AccountFactory.build(**{"balance": 10})
+        account2 = AccountFactory.build(**{"balance": 20})
+        entity1 = EntityFactory.build(**{"accounts":[account1, account2]})
+        entity2 = EntityFactory.build(**{"accounts":[account1.copy(), account2.copy()]})
+        
+        bank = BankFactory.build(**{ "entities":[entity1, entity2] })
+        result = BankQuery(bank).return_bank_balance()
+        assert result == 60
+        
+
         
                 
