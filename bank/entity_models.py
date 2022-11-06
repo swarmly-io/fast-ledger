@@ -3,9 +3,7 @@ from decimal import Decimal
 from uuid import UUID, uuid4
 from pydantic import BaseModel, Field, validator
 from typing import List, Optional
-
-class IdBaseModel(BaseModel):
-    id: UUID = Field(default_factory=uuid4)
+from bank.id_basemodel import IdBaseModel
 
 class Address(IdBaseModel):
     unit_floor: str
@@ -78,7 +76,7 @@ class Entity(IdBaseModel):
         if not v or v == '':
             raise ValueError('No blank name')
         return v
-    
+
 
      
 

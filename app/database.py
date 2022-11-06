@@ -59,4 +59,4 @@ class Database:
                 data[classkey] = obj.__class__.__name__
             return data
         else:
-            return obj  
+            return obj
