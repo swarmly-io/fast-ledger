@@ -1,0 +1,12 @@
+version: '3'
+services:
+  couchserver:
+    image: bitnami/couchdb:latest
+    restart: always
+    ports:
+      - "5984:5984"
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=password
+    volumes:
+        - ./dbdata:/opt/couchdb/data

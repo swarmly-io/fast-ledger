@@ -7,6 +7,7 @@ from typing import List
 from pydantic import BaseModel
 
 from bank.entity_models import Entity
+from bank.ledger import Ledger
 
 class Authority(str, Enum):
     CREATE_ENTITY = "Create an Entity"
@@ -25,3 +26,4 @@ class Bank(BaseModel):
     name: str
     entities: List[Entity]
     internal_entities: List[InternalEntity]
+    ledger: Ledger
