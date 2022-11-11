@@ -3,13 +3,14 @@
 
 from typing import List, Union
 from fastapi import APIRouter, Query
+from pydantic import BaseModel
 from bank.ledger import TransactionsLedger
 
 from bank.ledger_models import EntityEntry, TransactionEntry
-from routes import documents, transactional, logger
+from . import documents, transactional, logger
 
 router = APIRouter(prefix='/api')
-@router.startup()
+@router.on_event("startup")
 def startup():
     router.ledger = TransactionsLedger(documents, transactional, logger)
     
@@ -17,7 +18,7 @@ def startup():
 def get_transactions(offset: int = 0, limit: int = Query(default=100, lte=100)):
     return router.ledger.get_transactions(offset, limit)
         
-class TransactionDto:
+class TransactionDto(BaseModel):
     transactionEntry: TransactionEntry
     entity: EntityEntry
     

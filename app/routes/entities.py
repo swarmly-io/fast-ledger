@@ -3,11 +3,11 @@ from fastapi import APIRouter
 
 from bank.entity_models import AccountEntity
 from bank.ledger import EntitiesLedger
-from routes import documents, transactional, logger
+from . import documents, transactional, logger
 
 router = APIRouter(prefix='/api')
 
-@router.startup()
+@router.on_event("startup")
 def startup():
     router.ledger = EntitiesLedger(documents, transactional, logger)
 
