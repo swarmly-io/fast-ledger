@@ -2,7 +2,7 @@
 from bank.entity_models import *
 
 class EntityAccountMaintainer:
-    def __init__(self, entity: Entity):
+    def __init__(self, entity: AccountEntity):
         self.entity = entity
         
     def update_name(self, first_name = None, last_name = None):

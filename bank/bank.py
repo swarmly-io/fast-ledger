@@ -6,8 +6,7 @@ from pydantic import BaseModel, Field
 from typing import List
 from pydantic import BaseModel
 
-from bank.entity_models import Entity
-from bank.ledger import Ledger
+from bank.entity_models import AccountEntity
 
 class Authority(str, Enum):
     CREATE_ENTITY = "Create an Entity"
@@ -24,6 +23,5 @@ class InternalEntity(BaseModel):
 class Bank(BaseModel):
     id: UUID = Field(default_factory=uuid4)
     name: str
-    entities: List[Entity]
+    entities: List[AccountEntity]
     internal_entities: List[InternalEntity]
-    ledger: Ledger

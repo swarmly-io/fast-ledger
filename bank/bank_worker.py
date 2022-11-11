@@ -1,18 +1,18 @@
 from datetime import datetime
 from decimal import Decimal
 from bank.bank import Bank
-from bank.entity_models import Account, ReverseApproval, Transaction, Entity
+from bank.entity_models import Account, ReverseApproval, Transaction, AccountEntity
 from bank.entity_maintainer import EntityAccountMaintainer
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from bank.entity_models import Entity
+    from bank.entity_models import AccountEntity
 
 class BankWorker:
     def __init__(self, bank: Bank):
         self.bank = bank
         
-    def add_entity(self, entity: Entity):
+    def add_entity(self, entity: AccountEntity):
         self.bank.entities.append(entity)
         
     def deposit(self, account: Account, amount: Decimal):

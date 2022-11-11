@@ -47,7 +47,7 @@ class Account(IdBaseModel):
     balanceCurrency: str
     opened_date: datetime
     closed_date: Optional[datetime]
-    transactions: List[Transaction]
+    #transactions: List[Transaction]
     
 class IdDocument(IdBaseModel):
     type: str
@@ -56,7 +56,7 @@ class IdDocument(IdBaseModel):
     date_created: datetime
     verifier: str
 
-class Entity(IdBaseModel):
+class AccountEntity(IdBaseModel):
     first_name: str 
     middle_name: str
     last_name: str
@@ -70,7 +70,7 @@ class Entity(IdBaseModel):
     
     @validator('first_name')
     def first_name_validator(cls, v):
-        return Entity.name_must_be_non_empty(cls, v)
+        return AccountEntity.name_must_be_non_empty(cls, v)
     
     def name_must_be_non_empty(cls, v):
         if not v or v == '':

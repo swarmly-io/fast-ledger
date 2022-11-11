@@ -1,6 +1,6 @@
 
 from uuid import UUID
-from bank.entity_models import Entity
+from bank.entity_models import AccountEntity
 from bank.utils import first_or_none, flat_map
 from bank.bank import Bank
 
@@ -22,7 +22,7 @@ class BankQuery:
         accounts = list(flat_map(lambda x: x.accounts, self.bank.entities))
         return list(accounts)
     
-    def return_total_balance(self, entity: Entity):
+    def return_total_balance(self, entity: AccountEntity):
         if len(entity.accounts) == 0: return 0
         return sum([a.balance for a in entity.accounts])
         
