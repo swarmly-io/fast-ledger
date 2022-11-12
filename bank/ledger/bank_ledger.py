@@ -1,10 +1,12 @@
 import datetime
 from decimal import Decimal
 from typing import Optional
+from uuid import UUID
 from sqlmodel import select
 from bank.ledger.base_ledger import BaseLedger
 
 from bank.ledger.ledger_models import AccountEntry, BalanceEntry, TransactionEntry
+import pydash
 
 class BankLedger(BaseLedger):
     def create_account_entry(self, account_entry: AccountEntry):
@@ -17,6 +19,18 @@ class BankLedger(BaseLedger):
                 raise Exception("Account already exists")
             session.add(account_entry)
             session.commit()
+            
+    def get_latest_balance_by_account(self, id: UUID):
+        with self.transactional.get_session() as session:
+            statement = select(TransactionEntry).join(AccountEntry, TransactionEntry.account_id == AccountEntry.account_id).where((TransactionEntry.id > AccountEntry.last_transaction_id) & AccountEntry.account_id == str(id))
+            records = session.exec(statement).all()
+            records_by_currency = pydash.group_by(records, lambda x: x.currency)
+            balances = {}
+            for k,v in records_by_currency.items():
+                balances[k] = 0
+                for t in v:
+                    balances[k] = balances[k] + t.amount
+            return balances
             
     def compute_balances(self):
         with self.transactional.get_session() as session:

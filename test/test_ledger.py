@@ -116,3 +116,18 @@ class TestLedger:
             for balance in results.balances:
                 print(balance)
                 assert round(balance.balance, 2) == round((Decimal(10) * Decimal(5.51)),2)
+                
+    def test_get_latest_balance_by_account_gives_correct_balance(self):
+        account_uuid, _ = self.add_account_create_transaction(5)
+        account_uuid2, _ = self.add_account_create_transaction(1)
+
+        self.ledger.compute_balances()
+        self.create_transactions(5,account_uuid)
+        balances = self.ledger.get_latest_balance_by_account(account_uuid)
+        for currency, balance in balances.items():
+                assert round(balance, 2) == round((Decimal(10) * Decimal(5.51)),2)
+                
+        balances = self.ledger.get_latest_balance_by_account(account_uuid2)
+        for currency, balance in balances.items():
+                assert round(balance, 2) == round((Decimal(5.51)),2)
+        
