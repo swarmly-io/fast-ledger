@@ -1,7 +1,7 @@
 
 
 from fastapi import APIRouter
-from bank.ledger import BankLedger
+from bank.ledger.ledger import BankLedger
 from . import documents, transactional, logger
 
 router = APIRouter(prefix='/api')

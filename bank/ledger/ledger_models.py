@@ -17,6 +17,7 @@ class EntityEntry(SQLModel, table=True):
     account_number: Optional[str]
     bsb: Optional[str]
     account_id: Optional[UUID]
+    entity_id: Optional[UUID]
 
 class TransactionEntry(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
@@ -36,19 +37,17 @@ class BalanceEntry(SQLModel, table=True):
     date_updated: datetime = Field(default_factory=datetime.utcnow)
 
 class AccountEntry(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
+    id: int = Field(primary_key=True)
     entity_id: UUID
     account_id: UUID
     balances: List['BalanceEntry'] = Relationship()
-    balance: condecimal(decimal_places=2) = Field(default=0)
-    currency: str
     last_transaction_id: int = Field(default=0)
     date_updated: datetime = Field(default_factory=datetime.utcnow)
     date_created: datetime = Field(default_factory=datetime.utcnow)
-    closed: bool = Field(default=False)
+    closed_date: Optional[datetime] = Field(default=None)
     
 class AssetEntry(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
+    id: int = Field(primary_key=True)
     parent_id: Optional[int]
     asset_id: UUID
     date_updated: datetime = Field(default_factory=datetime.utcnow)

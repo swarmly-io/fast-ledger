@@ -5,7 +5,7 @@ from uuid import uuid4
 
 import pytest
 from bank.bank_worker import BankWorker
-from bank.entity_models import Account, Entity, ReverseApproval, Transaction
+from bank.entity_models import Account, AccountEntity, ReverseApproval, Transaction
 from bank.bank_query import BankQuery
 from bank.utils import first_or_none
 from pydantic_factories import ModelFactory
@@ -18,7 +18,7 @@ class BankFactory(ModelFactory):
     entities = []
     
 class EntityFactory(ModelFactory):
-    __model__ = Entity
+    __model__ = AccountEntity
     
     accounts = []
     

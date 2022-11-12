@@ -40,14 +40,16 @@ class Transaction(IdBaseModel):
     counter_party: UUID
     reverse_approval: Optional[ReverseApproval]
 
+class Balances(IdBaseModel):
+    currency: str
+    amount: Decimal
+    last_updated: datetime = Field(default_factory=datetime.utcnow)
+
 class Account(IdBaseModel):
     name: str
     details: BankDetails
-    balance: Decimal
-    balanceCurrency: str
     opened_date: datetime
     closed_date: Optional[datetime]
-    #transactions: List[Transaction]
     
 class IdDocument(IdBaseModel):
     type: str

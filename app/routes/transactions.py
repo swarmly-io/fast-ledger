@@ -4,9 +4,9 @@
 from typing import List, Union
 from fastapi import APIRouter, Query
 from pydantic import BaseModel
-from bank.ledger import TransactionsLedger
+from bank.ledger.ledger import TransactionsLedger
 
-from bank.ledger_models import EntityEntry, TransactionEntry
+from bank.ledger.ledger_models import EntityEntry, TransactionEntry
 from . import documents, transactional, logger
 
 router = APIRouter(prefix='/api')

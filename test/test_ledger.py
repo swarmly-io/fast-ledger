@@ -1,17 +1,14 @@
 
 from decimal import Decimal
-from html import entities
 import os
-import random
-from time import sleep
 from uuid import uuid4
 from pydantic_factories import ModelFactory
 import pytest
-from bank.ledger import Ledger, TransactionDto
 from bank.persistence.database import Database
 from bank.persistence.transactional_database import TransactionalDatabase
 
-from bank.ledger_models import AccountEntry, EntityEntry, TransactionEntry
+from bank.ledger.ledger import Ledger
+from bank.ledger.ledger_models import AccountEntry, EntityEntry, TransactionEntry
 from fastapi.logger import logger
 from sqlmodel import select
 
@@ -36,11 +33,9 @@ class TestLedger:
         os.remove("./testdb.db")
 
     def test_create_an_account(self):
-        entity_uuid, account_uuid, account_data = self.make_account()
+        entity_uuid, account_uuid,_ = self.make_account()
         result = self.get_account()
         assert result is not None
-        assert account_data["balance"] == result.balance
-        assert account_data["currency"] == result.currency
         assert result.account_id == account_uuid
         assert result.entity_id == entity_uuid
 
@@ -112,7 +107,7 @@ class TestLedger:
         return result
 
     def test_run_ledger_calculates_correct_balance(self):
-        account_uuid, transaction_data = self.add_account_create_transaction(5)
+        account_uuid, _ = self.add_account_create_transaction(5)
         self.ledger.compute_balances()
         self.create_transactions(5,account_uuid)
         self.ledger.compute_balances()
