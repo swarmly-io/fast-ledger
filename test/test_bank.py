@@ -4,13 +4,12 @@ import random
 from uuid import uuid4
 
 import pytest
-from bank.bank_worker import BankWorker
-from bank.entity_models import Account, AccountEntity, ReverseApproval, Transaction
-from bank.bank_query import BankQuery
+from bank.bank_models import Account, AccountEntity, ReverseApproval, Transaction
+from bank.bank.bank_worker import BankWorker
+from bank.bank.bank_query import BankQuery
 from bank.utils import first_or_none
 from pydantic_factories import ModelFactory
-from bank.bank import Authority, Bank, InternalEntity
-from devtools import debug
+from bank.bank.bank import Authority, Bank, InternalEntity
 
 class BankFactory(ModelFactory):
     __model__ = Bank
@@ -24,9 +23,7 @@ class EntityFactory(ModelFactory):
     
 class AccountFactory(ModelFactory):
     __model__ = Account
-    
-    transactions = []
-    
+        
 class TransactionFactory(ModelFactory):
     __model__ = Transaction
     

@@ -6,7 +6,7 @@ from uuid import UUID, uuid4
 from pydantic import BaseModel
 from bank.ledger.bank_ledger import BankLedger
 from bank.persistence.database import Database
-from bank.entity_models import Account, AccountEntity, Address, IdDocument, PhoneNumber
+from bank.bank_models import Account, AccountEntity, Address, IdDocument, PhoneNumber
 from sqlmodel import select
 
 from bank.ledger.ledger_models import AccountEntry, EntityEntry

@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field
 from typing import List
 from pydantic import BaseModel
 
-from bank.entity_models import AccountEntity
+from bank.bank_models import AccountEntity
 
 class Authority(str, Enum):
     CREATE_ENTITY = "Create an Entity"

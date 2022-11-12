@@ -1,12 +1,12 @@
 from datetime import datetime
 from decimal import Decimal
-from bank.bank import Bank
-from bank.entity_models import Account, ReverseApproval, Transaction, AccountEntity
+from bank.bank.bank import Bank
+from bank.bank_models import Account, ReverseApproval, Transaction, AccountEntity
 from bank.entity_maintainer import EntityAccountMaintainer
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from bank.entity_models import AccountEntity
+    from bank.bank_models import AccountEntity
 
 class BankWorker:
     def __init__(self, bank: Bank):

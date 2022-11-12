@@ -26,7 +26,7 @@ class TransactionEntry(SQLModel, table=True):
     description: Optional[str]
     amount: condecimal(decimal_places=2) = Field(default=0)
     currency: str
-    time_recorded: datetime = Field(default_factory=datetime.utcnow)
+    date: datetime = Field(default_factory=datetime.utcnow)
     transaction_type: str
     
 class BalanceEntry(SQLModel, table=True):

@@ -1,5 +1,5 @@
 
-from bank.entity_models import *
+from bank.bank_models import *
 
 class EntityAccountMaintainer:
     def __init__(self, entity: AccountEntity):

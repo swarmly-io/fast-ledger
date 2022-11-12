@@ -1,7 +1,7 @@
 from datetime import datetime
 from decimal import Decimal
-from uuid import UUID, uuid4
-from pydantic import BaseModel, Field, validator
+from uuid import UUID
+from pydantic import Field, validator
 from typing import List, Optional
 from bank.id_basemodel import IdBaseModel
 
@@ -31,14 +31,27 @@ class ReverseApproval(IdBaseModel):
     approved: bool
     approvers: List[UUID]
     reference_transaction: UUID
+    
+class Entity(IdBaseModel):
+    first_name: Optional[str]
+    last_name: Optional[str]
+    company_name: Optional[str]
+    company_description: Optional[str]
+    address: Optional[str]
+    account_number: Optional[str]
+    bsb: Optional[str]
+    account_id: Optional[UUID]
+    entity_id: Optional[UUID]
 
 class Transaction(IdBaseModel):
-    description: str
+    description: Optional[str]
     date: datetime
     amount: Decimal
-    # todo currency: str
-    counter_party: UUID
+    currency: str
+    account_id: UUID
+    counter_party_entity_id: UUID
     reverse_approval: Optional[ReverseApproval]
+    transaction_type: str
 
 class Balances(IdBaseModel):
     currency: str

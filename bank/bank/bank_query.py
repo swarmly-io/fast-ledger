@@ -1,8 +1,8 @@
 
 from uuid import UUID
-from bank.entity_models import AccountEntity
+from bank.bank_models import AccountEntity
 from bank.utils import first_or_none, flat_map
-from bank.bank import Bank
+from bank.bank.bank import Bank
 
 class BankQuery:
     def __init__(self, bank: Bank):
