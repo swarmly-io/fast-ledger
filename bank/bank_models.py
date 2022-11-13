@@ -49,7 +49,7 @@ class Transaction(IdBaseModel):
     amount: Decimal
     currency: str
     account_id: UUID
-    counter_party_entity_id: UUID
+    counter_party_entity_id: Optional[UUID]
     reverse_approval: Optional[ReverseApproval]
     transaction_type: str
 

@@ -15,7 +15,7 @@ class CreateAccountDto(BaseModel):
     account_id: UUID
     account: Account
 
-class EntityIdDto(BaseModel):
+class IdDto(BaseModel):
     id: UUID
 
 class AccountEntityEditDto(BaseModel):
@@ -103,7 +103,7 @@ class EntitiesLedger(BankLedger):
         db = self.get_db(bucket)
         db.save(newentity)
             
-    def close_entity(self, close: EntityIdDto, bucket: str = "bank"):
+    def close_entity(self, close: IdDto, bucket: str = "bank"):
         entity: AccountEntity = self.get_entity_by_id(close.entity_id, bucket)
         if not entity:
             raise Exception("Entity not found")
@@ -122,7 +122,7 @@ class EntitiesLedger(BankLedger):
         db = self.get_db(bucket)
         db.save(entity)
         
-    def get_balances(self, idDto: EntityIdDto):
+    def get_balances(self, idDto: IdDto):
         account_balances = {}
         with self.transactional.get_session() as session:
             accounts = session.exec(select(AccountEntry).where(AccountEntry.entity_id == idDto.id)).all()
