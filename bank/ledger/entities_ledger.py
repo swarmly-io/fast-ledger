@@ -66,8 +66,8 @@ class EntitiesLedger(BankLedger):
                 session.commit()
                 
             for account in entity.accounts:
-                self.create_account_entry(AccountEntry(entity_id=entity.id, account_id=account.id, currency=account.balanceCurrency))
-
+                self.create_account_entry(AccountEntry(entity_id=entity.id, account_id=account.id))
+    
         return entity 
     
     def add_account(self, entity_account_id: UUID, account: Account, bucket: str = "bank"):

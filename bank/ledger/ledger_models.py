@@ -4,6 +4,7 @@ from datetime import datetime
 from typing import List, Optional
 from uuid import UUID, uuid4
 from pydantic import condecimal
+from sqlalchemy import BigInteger, Column
 from sqlmodel import Field, Relationship, SQLModel
 
 class EntityEntry(SQLModel, table=True):
@@ -20,7 +21,7 @@ class EntityEntry(SQLModel, table=True):
     entity_id: Optional[UUID]
 
 class TransactionEntry(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
+    id: Optional[int] = Field(sa_column=Column(BigInteger(), primary_key=True))
     account_id: UUID = Field(default=None, foreign_key="accountentry.account_id")
     counter_party_entity_id: Optional[UUID]
     description: Optional[str]
@@ -30,14 +31,14 @@ class TransactionEntry(SQLModel, table=True):
     transaction_type: str
     
 class BalanceEntry(SQLModel, table=True):
-    id: int = Field(primary_key=True)
+    id: Optional[int] = Field(sa_column=Column(BigInteger(), primary_key=True))
     account_id: UUID = Field(foreign_key="accountentry.account_id")
     balance: condecimal(decimal_places=2) = Field(default=0)
     currency: str
     date_updated: datetime = Field(default_factory=datetime.utcnow)
 
 class AccountEntry(SQLModel, table=True):
-    id: int = Field(primary_key=True)
+    id: Optional[int] = Field(sa_column=Column(BigInteger(), primary_key=True))
     entity_id: UUID
     account_id: UUID
     balances: List['BalanceEntry'] = Relationship()
@@ -47,7 +48,7 @@ class AccountEntry(SQLModel, table=True):
     closed_date: Optional[datetime] = Field(default=None)
     
 class AssetEntry(SQLModel, table=True):
-    id: int = Field(primary_key=True)
+    id: Optional[int] = Field(sa_column=Column(BigInteger(), primary_key=True))
     parent_id: Optional[int]
     asset_id: UUID
     date_updated: datetime = Field(default_factory=datetime.utcnow)
