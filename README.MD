@@ -1,4 +1,4 @@
-# quick bank
+# fast ledger
 A quick implementation of the ledger and entities aspects of a bank. There are no rules stopping negative balances, duplicate accounts etc. There is no security.
 
 ## why python?
