@@ -1,10 +1,8 @@
 # quick bank
-This is a quick go at creating a bank with a simple single currency ledger. You are able to create a bank, add entities with accounts.
-
-The functionality of the bank is split up into commands and queries (see bank_worker and bank_query) with an additional maintainance component to demonstrate how I would do detail updates as customers often do.
+A quick implementation of the ledger and entities aspects of a bank. There are no rules stopping negative balances, duplicate accounts etc. There is no security.
 
 ## why python?
-I briefly got to use fastapi a while back and saw pydantic was quite a breath of fresh air in terms of declaring models in python (see entity_models). Since I have another side project going on in python I used this opportunity to evaluate it for that (hope you don't mind)! Probably would build a bank in java or kotlin ;)
+I briefly got to use fastapi a while back and saw pydantic was quite a breath of fresh air in terms of declaring models in python (see entity_models). 
 
 ## core libraries
 - pydantic
