@@ -5,7 +5,8 @@ from typing import List, Optional
 from uuid import UUID, uuid4
 from pydantic import BaseModel
 from bank.ledger.bank_ledger import BankLedger
-from bank.persistence.database import Database
+from bank.ledger.base_ledger import IdDto
+from bank.persistence.database import DocumentDatabase
 from bank.bank_models import Account, AccountEntity, Address, IdDocument, PhoneNumber
 from sqlmodel import select
 
@@ -14,9 +15,6 @@ from bank.ledger.ledger_models import AccountEntry, EntityEntry
 class CreateAccountDto(BaseModel):
     account_id: UUID
     account: Account
-
-class IdDto(BaseModel):
-    id: UUID
 
 class AccountEntityEditDto(BaseModel):
     entity_id: UUID
@@ -48,7 +46,7 @@ class EntitiesLedger(BankLedger):
     def create_account_entity(self, entity: AccountEntity, bucket: str = "bank"):
         db = self.get_db(bucket)
         
-        dbentity = Database.todict(entity)
+        dbentity = DocumentDatabase.todict(entity)
         dbentity["_id"] = str(entity.id)
         existing = db.get(str(dbentity["_id"]))
         self.logger.warn(existing)

@@ -2,7 +2,7 @@ from datetime import datetime
 from decimal import Decimal
 from uuid import UUID
 from pydantic import Field, validator
-from typing import List, Optional
+from typing import List, Optional, Tuple, Union
 from bank.id_basemodel import IdBaseModel
 
 class Address(IdBaseModel):
@@ -60,7 +60,7 @@ class Balances(IdBaseModel):
 
 class Account(IdBaseModel):
     name: str
-    details: BankDetails
+    details: Union[BankDetails, str]
     opened_date: datetime
     closed_date: Optional[datetime]
     
@@ -70,9 +70,28 @@ class IdDocument(IdBaseModel):
     country: str
     date_created: datetime
     verifier: str
+    
+class Location(IdBaseModel):
+    asset_id: UUID
+    description: Optional[str]
+    point: Tuple[float, float, float]
+    date: datetime = Field(default_factory=datetime.utcnow)
+
+class Valuation(IdBaseModel):
+    name: str
+    description: str
+    value: Decimal
+    currency: str
+    date: datetime = Field(default_factory=datetime.utcnow)
+    
+class Asset(IdBaseModel):
+    account_id: UUID
+    name: str
+    link: Optional[str]
+    valuations: List[Valuation]
 
 class AccountEntity(IdBaseModel):
-    first_name: str 
+    first_name: str
     middle_name: str
     last_name: str
     id_documents: List[IdDocument]

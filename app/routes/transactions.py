@@ -11,18 +11,20 @@ from bank.ledger.transaction_ledger import TransactionDto
 
 from . import documents, transactional, logger
 
-router = APIRouter(prefix='/api')
+router = APIRouter(prefix='/api', tags=['transactions'])
 @router.on_event("startup")
 def startup():
     router.ledger = TransactionsLedger(documents, transactional, logger)
     
-@router.post("/transactions", response_model=List[TransactionEntry])
-def get_transactions(account_idDto: IdDto, offset: int = 0, limit: int = Query(default=100, lte=100)):
-    return router.ledger.get_transactions_by_account(account_idDto.id, offset, limit)
+@router.post("/transactions", response_model=List)
+def get_transactions_by_account(account_idDto: IdDto, offset: int = 0, limit: int = Query(default=100, lte=100)):
+    transactions = router.ledger.get_transactions_by_account(account_idDto.id, offset, limit)
+    return list(map(lambda x: x.__dict__, transactions))
 
-@router.get("/transactions", response_model=List[TransactionEntry])
+@router.get("/transactions", response_model=List)
 def get_transactions(offset: int = 0, limit: int = Query(default=100, lte=100)):
-    return router.ledger.get_transactions(offset, limit)
+    transactions = router.ledger.get_transactions(offset, limit)
+    return list(map(lambda x: x.__dict__, transactions))
     
 @router.post("/transaction")
 def create_transaction(transaction: Union[TransactionDto, Transaction]):

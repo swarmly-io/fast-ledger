@@ -6,5 +6,5 @@ class TransactionalDatabase:
         SQLModel.metadata.create_all(self.engine)
         
     def get_session(self):
-        return Session(self.engine)
+        return Session(self.engine)        
 

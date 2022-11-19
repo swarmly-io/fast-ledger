@@ -4,11 +4,11 @@ import os
 from uuid import uuid4
 from pydantic_factories import ModelFactory
 import pytest
-from bank.persistence.database import Database
+from bank.persistence.database import DocumentDatabase
 from bank.persistence.transactional_database import TransactionalDatabase
 
 from bank.ledger.ledger import Ledger
-from bank.ledger.ledger_models import AccountEntry, EntityEntry, TransactionEntry
+from bank.ledger.ledger_models import AccountEntry, BalanceEntry, EntityEntry, TransactionEntry
 from fastapi.logger import logger
 from sqlmodel import select
 
@@ -26,7 +26,7 @@ class TransactionEntryFactory(ModelFactory):
 class TestLedger:
     def setup_method(self):
         self.transactional = TransactionalDatabase("testdb")
-        self.documents = Database()
+        self.documents = DocumentDatabase()
         self.ledger = Ledger(self.documents, self.transactional, logger)
         
     def teardown_method(self):

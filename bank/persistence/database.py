@@ -1,8 +1,9 @@
+from enum import Enum
 import couchdb
 import json
 from decimal import Decimal
 from uuid import UUID
-from datetime import datetime, date  
+from datetime import datetime, date
 from fastapi.logger import logger
 
 class JSONEncoderExtended(json.JSONEncoder):
@@ -17,11 +18,20 @@ class JSONEncoderExtended(json.JSONEncoder):
             return str(obj)
 
         return json.JSONEncoder.default(self, obj)
+    
+class Buckets(str,Enum):
+    BANK = "bank"
+    ENTITIES = "entities"
+    ASSETS = "assets"
+    LIABILITIES = "liabilities"
+    TRANSACTIONS = "transactions"
+    VALUATIONS = "valuations"
+    LOCATIONS = "locations"
 
-class Database:
+class DocumentDatabase:
     def __init__(self):
         self.couch = self.get_client()
-        couchdb.json.use(decode=Database.decode_json, encode=Database.encode_json)
+        couchdb.json.use(decode=DocumentDatabase.decode_json, encode=DocumentDatabase.encode_json)
         self.update_db_list()
         logger.warn(self.dbs)
         
@@ -32,6 +42,12 @@ class Database:
         
     def get_client(self):
         return couchdb.Server('http://admin:password@localhost:5984/')
+    
+    def get_last_id(self, bucket_name):
+        x = self.couch[bucket_name].changes(include_docs=True, descending=True, limit=1)
+        if not x['results'] or len(x['results']) == 0:
+            return None
+        return x['results'][0]['id']
 
     @staticmethod
     def encode_json(obj):
@@ -45,14 +61,14 @@ class Database:
         if isinstance(obj, dict):
             data = {}
             for (k, v) in obj.items():
-                data[k] = Database.todict(v, classkey)
+                data[k] = DocumentDatabase.todict(v, classkey)
             return data
         elif hasattr(obj, "_ast"):
-            return Database.todict(obj._ast())
+            return DocumentDatabase.todict(obj._ast())
         elif isinstance(obj, list) and not isinstance(obj, str):
-            return [Database.todict(v, classkey) for v in obj]
+            return [DocumentDatabase.todict(v, classkey) for v in obj]
         elif hasattr(obj, "__dict__"):
-            data = dict([(key, Database.todict(value, classkey)) 
+            data = dict([(key, DocumentDatabase.todict(value, classkey)) 
                 for key, value in obj.__dict__.items() 
                 if not callable(value) and not key.startswith('_')])
             if classkey is not None and hasattr(obj, "__class__"):

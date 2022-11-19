@@ -4,7 +4,7 @@ from fastapi import APIRouter
 from bank.ledger.ledger import BankLedger
 from . import documents, transactional, logger
 
-router = APIRouter(prefix='/api')
+router = APIRouter(prefix='/api', tags=["bank"])
 
 @router.on_event("startup")
 def startup():

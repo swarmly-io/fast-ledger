@@ -1,4 +1,4 @@
-from app.routes import entities, transactions, bank
+from app.routes import assets, entities, transactions, bank
 
 from fastapi import FastAPI, Response
 from app.logger import init_logging
@@ -10,6 +10,7 @@ app = FastAPI(log_level="trace")
 app.include_router(entities.router)
 app.include_router(transactions.router)
 app.include_router(bank.router)
+app.include_router(assets.router)
 
 # todo enable only in local env
 @app.exception_handler(Exception)
