@@ -6,7 +6,7 @@ import os
 from uuid import uuid4
 
 from faker import Faker
-from bank.bank_models import Account
+from bank.entities_models import Account
 from bank.ledger.ledger_models import AccountEntry, EntityEntry, TransactionEntry
 from bank.persistence.database import DocumentDatabase, JSONEncoderExtended
 

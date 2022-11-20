@@ -1,7 +1,7 @@
 
 from faker import Faker
 from pydantic_factories import ModelFactory, Use
-from bank.bank_models import AccountEntity
+from bank.entities_models import AccountEntity
 from bank.ledger.ledger_models import AccountEntry, EntityEntry, TransactionEntry
 
 faker = Faker('en-AU')

@@ -1,7 +1,7 @@
 
 from fastapi import APIRouter
 
-from bank.bank_models import AccountEntity
+from bank.entities_models import AccountEntity
 from bank.ledger.base_ledger import IdDto
 from bank.ledger.entities_ledger import AccountEntityEditDto, CreateAccountDto, EntitiesLedger
 from . import documents, transactional, logger

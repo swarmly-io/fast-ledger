@@ -4,7 +4,7 @@ from uuid import UUID
 
 from pydantic import BaseModel
 from sqlalchemy import update
-from bank.bank_models import Asset, Entity, Location, Valuation
+from bank.entities_models import Asset, Entity, Location, Valuation
 from bank.ledger.base_ledger import BaseLedger
 from bank.ledger.ledger_models import AssetEntry, EntityEntry, TransactionEntry
 from bank.persistence.database import Buckets

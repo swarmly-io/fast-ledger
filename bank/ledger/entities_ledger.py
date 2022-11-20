@@ -7,7 +7,7 @@ from pydantic import BaseModel
 from bank.ledger.bank_ledger import BankLedger
 from bank.ledger.base_ledger import IdDto
 from bank.persistence.database import DocumentDatabase
-from bank.bank_models import Account, AccountEntity, Address, IdDocument, PhoneNumber
+from bank.entities_models import Account, AccountEntity, Address, IdDocument, PhoneNumber
 from sqlmodel import select
 
 from bank.ledger.ledger_models import AccountEntry, EntityEntry

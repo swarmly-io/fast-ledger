@@ -3,7 +3,7 @@ from uuid import UUID
 from fastapi import Query
 from pydantic import BaseModel
 from sqlmodel import select
-from bank.bank_models import Entity, Transaction
+from bank.entities_models import Entity, Transaction
 from bank.ledger.base_ledger import BaseLedger
 
 from bank.ledger.ledger_models import EntityEntry, TransactionEntry

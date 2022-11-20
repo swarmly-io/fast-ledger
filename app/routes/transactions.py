@@ -3,7 +3,7 @@
 
 from typing import List, Union
 from fastapi import APIRouter, Query
-from bank.bank_models import Transaction
+from bank.entities_models import Transaction
 from bank.ledger.entities_ledger import IdDto
 from bank.ledger.ledger import TransactionsLedger
 from bank.ledger.ledger_models import TransactionEntry

@@ -2,7 +2,7 @@
 A quick implementation of the ledger and entities aspects of a bank. There are no rules stopping negative balances, duplicate accounts etc. There is no security.
 
 ## why python?
-I briefly got to use fastapi a while back and saw pydantic was quite a breath of fresh air in terms of declaring models in python (see entity_models). 
+I briefly got to use fastapi a while back and saw pydantic was quite a breath of fresh air in terms of declaring models in python (see ledger_models). 
 
 ## core libraries
 - pydantic
@@ -15,5 +15,10 @@ I briefly got to use fastapi a while back and saw pydantic was quite a breath of
 ```pytest```
 
 ## next steps
-During the modelling phase the most interesting part was thinking about if there were multiple banks, how would you route money between parties. Implemented a simple bank system structure for this.
+- More tests, a ledger should have 100% test coverage, run ```coverage report``` for more info
+-- But mainly some methods in transactions and assets are missing tests
+- Implement a scheduler to run update balances
+- Implement reports
+- Implement a quick frontend (for fun)
+- Entity resolution service to prevent duplicates
 

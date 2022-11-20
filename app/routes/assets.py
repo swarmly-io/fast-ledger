@@ -2,7 +2,7 @@
 
 from uuid import UUID
 from fastapi import APIRouter
-from bank.bank_models import Location, Valuation
+from bank.entities_models import Location, Valuation
 from bank.ledger.assets_ledger import CreateAssetDto, AssetsLedger
 from bank.ledger.base_ledger import IdDto
 from . import documents, transactional, logger

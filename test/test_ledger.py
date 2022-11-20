@@ -2,26 +2,18 @@
 from decimal import Decimal
 import os
 from uuid import uuid4
-from pydantic_factories import ModelFactory
 import pytest
 from bank.persistence.database import DocumentDatabase
 from bank.persistence.transactional_database import TransactionalDatabase
 
 from bank.ledger.ledger import Ledger
-from bank.ledger.ledger_models import AccountEntry, BalanceEntry, EntityEntry, TransactionEntry
+from bank.ledger.ledger_models import AccountEntry, TransactionEntry
 from fastapi.logger import logger
 from sqlmodel import select
 
+from test.factories import AccountEntryFactory, EntityEntryFactory, TransactionEntryFactory
+
 TEST_BUCKET = "TEST_BUCKET"
-
-class AccountEntryFactory(ModelFactory):
-    __model__ = AccountEntry
-    
-class EntityEntryFactory(ModelFactory):
-    __model__ = EntityEntry
-
-class TransactionEntryFactory(ModelFactory):
-    __model__ = TransactionEntry
     
 class TestLedger:
     def setup_method(self):
