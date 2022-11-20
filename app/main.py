@@ -5,7 +5,7 @@ from app.logger import init_logging
 
 init_logging()
 
-app = FastAPI(log_level="trace")
+app = FastAPI(log_level="trace", title="FastLedger")
 
 app.include_router(entities.router)
 app.include_router(transactions.router)

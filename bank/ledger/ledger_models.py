@@ -7,6 +7,7 @@ from pydantic import condecimal
 from sqlalchemy import BigInteger, Column, Integer
 from sqlmodel import Field, Relationship, SQLModel
 
+# todo break this into types
 class EntityEntry(SQLModel, table=True):
     id: Optional[int] = Field(sa_column=Column(BigInteger().with_variant(Integer,'sqlite'), primary_key=True, autoincrement=True))
     entity_id: UUID = Field(default_factory=uuid4)
@@ -19,6 +20,7 @@ class EntityEntry(SQLModel, table=True):
     bsb: Optional[str]
     account_id: Optional[UUID]
     entity_id: Optional[UUID]
+    description: Optional[str]
 
 class TransactionEntry(SQLModel, table=True):
     id: Optional[int] = Field(sa_column=Column(BigInteger().with_variant(Integer,'sqlite'), primary_key=True, autoincrement=True))

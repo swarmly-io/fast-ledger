@@ -22,7 +22,7 @@ def add_valuation(valuation: Valuation):
     return router.ledger.add_valuation(valuation)
 
 @router.post("/asset/location")
-def add_valuation(location: Location):
+def add_location(location: Location):
     return router.ledger.add_location(location)
 
 @router.post("/asset")
